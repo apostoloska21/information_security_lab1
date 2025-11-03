@@ -4,12 +4,13 @@ from flask_login import UserMixin
 import uuid
 import hashlib
 
-db=SQLAlchemy()
+db = SQLAlchemy()
+
 
 class User(UserMixin, db.Model):
-    __tablename__='app_users'
+    __tablename__ = 'app_users'
 
-    id=db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     username = db.Column(db.String(80), unique=True, nullable=False, index=True)
     email = db.Column(db.String(120), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(255), nullable=False)
@@ -17,18 +18,23 @@ class User(UserMixin, db.Model):
     is_active = db.Column(db.Boolean, default=True)
 
     def set_password(self, password):
-        self.password_hash=generate_password_hash(
-            password,
-            method='scrypt'
-        )
+        self.password_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
 
     def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+        return self.password_hash == hashlib.sha256(password.encode('utf-8')).hexdigest()
 
     def get_id(self):
         return self.id
 
+#   def set_password(self, password):
+#         self.password_hash=generate_password_hash(
+#             password,
+#             method='scrypt'
+#         )
 #
+#     def check_password(self, password):
+#         return check_password_hash(self.password_hash, password)
+
 #
 # if __name__ == '__main__':
 #     from flask import Flask

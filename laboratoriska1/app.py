@@ -10,6 +10,7 @@ app.config.from_object(Config)
 
 db.init_app(app)
 
+# upravuvanje na sesija dali user e najaven i sutodirect
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -22,6 +23,7 @@ def load_user(user_id):
 
 
 def validate_email(email):
+    # regex
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     return re.match(pattern, email) is not None
 
@@ -38,7 +40,7 @@ def validate_password(password):
     return True, "success"
 
 
-# za da se spreci cross side scripting napad, da ne moze da se vmetni JS kod vo web stranata preku input pole
+# xss za da se spreci cross side scripting napad, da ne moze da se vmetni JS kod vo web stranata preku input pole
 def sanitize_input(user_input):
     return user_input.strip().replace('<', '&lt;').replace('>', '&gt;')
 
