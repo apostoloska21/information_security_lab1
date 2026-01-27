@@ -1,6 +1,6 @@
 # Logo Image
 
-Please place your Hello Kitty logo image here and name it `logo.png`.
+Hello Kitty logo image here and named it `logo.png`.
 
 The image will automatically be displayed in the header of all pages.
 
